@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ContactsTest" tests="1" skipped="1" failures="0" errors="0" timestamp="2024-02-26T04:42:49" hostname="C14188" time="0.469">
+  <properties/>
+  <testcase name="start" classname="ContactsTest" time="0.469">
+    <skipped/>
+  </testcase>
+  <system-out><![CDATA[?[1;31m
+Start test 1?[0m
+[menu] Enter action (add, list, search, count, exit):
+> exit
+Data saved to phonebook.db
+Exiting the program.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

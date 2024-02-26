@@ -1,0 +1,15 @@
+type: hyperskill
+title: Contacts (Java)
+language: English
+summary: "<p>You will learn the essential basics of object-oriented programming: encapsulation,\
+  \ inheritance, and polymorphism. Inheritance will allow you to write code that can\
+  \ perform the same process but for different objects. Polymorphism helps to initiate\
+  \ different processes for different objects by using the same method. You’ll also\
+  \ learn to prevent other users of your code from modifying the variables using encapsulation.</p><br/><br/>Learn\
+  \ more at <a href=\"https://hyperskill.org/projects/43?utm_source=ide&utm_medium=ide&utm_campaign=ide&utm_content=project-card\"\
+  >https://hyperskill.org/projects/43</a>"
+programming_language: Java
+programming_language_version: 11
+content:
+  - Contacts (Java)
+mode: Study

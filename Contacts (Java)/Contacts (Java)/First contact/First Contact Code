@@ -1,0 +1,70 @@
+import java.util.Scanner;
+
+class Main {
+    String name;
+    String surname;
+    String phoneNumber;
+
+    public Main(String name, String surname, String phoneNumber) {
+        this.name = name;
+        this.surname = surname;
+        this.phoneNumber = phoneNumber;
+    }
+}
+
+class PhoneBook {
+    Main[] records;
+    int size;
+
+    public PhoneBook() {
+        records = new Main[1]; // Initially, the phone book can hold only one record
+        size = 0;
+    }
+
+    public void addRecord(Main contact) {
+        if (size == records.length) {
+            // If the array is full, double its size
+            Main[] newRecords = new Main [2 * size];
+            System.arraycopy(records, 0, newRecords, 0, size);
+            records = newRecords;
+        }
+        records[size++] = contact;
+    }
+
+    public void displayRecords() {
+        for (int i = 0; i < size; i++) {
+            Main record = records[i];
+            System.out.println("Name: " + record.name +
+                               "\nSurname: " + record.surname +
+                               "\nPhone Number: " + record.phoneNumber + "\n");
+        }
+    }
+}
+
+class ContactsApp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the name of the person:");
+        String name = scanner.nextLine();
+
+        System.out.println("Enter the surname of the person:");
+        String surname = scanner.nextLine();
+
+        System.out.println("Enter the number:");
+        String phoneNumber = scanner.nextLine();
+
+        // Creating a contact record
+       Main newContact = new Main(name, surname, phoneNumber);
+
+        // Creating a phone book and adding the record
+        PhoneBook phoneBook = new PhoneBook();
+        phoneBook.addRecord(newContact);
+
+        // Displaying the created record
+        System.out.println("\nA record created!");
+        System.out.println("A Phone Book with a single record created!\n");
+        phoneBook.displayRecords();
+    }
+}
+
