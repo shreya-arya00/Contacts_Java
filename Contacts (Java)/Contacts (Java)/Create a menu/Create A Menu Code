@@ -1,0 +1,190 @@
+package contacts;
+
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            ContactsManagement contactManagement = new ContactsManagement();
+
+            while(true) {
+                final String STARTING_MSG = "Enter action (add, remove, edit, count, list, exit)";
+                System.out.println(STARTING_MSG);
+                String select = scanner.nextLine();
+
+                switch (select.toLowerCase()) {
+                    case "add":
+                        String PROMPT_NAME = "Enter the name of the person:";
+                        String PROMPT_SURNAME = "Enter the surname of the person:";
+                        String PROMPT_PHONE_NUMBER = "Enter the number:";
+                        System.out.println(PROMPT_NAME);
+                        String name = scanner.nextLine();
+                        System.out.println(PROMPT_SURNAME);
+                        String surname = scanner.nextLine();
+                        System.out.println(PROMPT_PHONE_NUMBER);
+                        String phoneNumber = scanner.nextLine();
+                        Contact contact = new Contact(name, surname);
+                        contact.setPhoneNumber(phoneNumber);
+                        contactManagement.addContact(contact);
+                        System.out.println("The record added.");
+                        break;
+                    case "remove":
+                        contactManagement.removeContact();
+                        break;
+                    case "edit":
+                        if (contactManagement.count() == 0) {
+                            final String EMPTY_CONTACT_MSG = "No records to edit!";
+                            System.out.println(EMPTY_CONTACT_MSG);
+                        } else {
+                            contactManagement.editContact();
+                        }
+                        break;
+                    case "count":
+                        String COUNT_MSG = "The Phone Book has %s records.".formatted(contactManagement.count());
+                        System.out.println(COUNT_MSG);
+                        break;
+                    case "list":
+                        contactManagement.list();
+                        break;
+                    case "exit":
+                        contactManagement.exit();
+                        break;
+                    default:
+                        System.out.println("default");
+                        break;
+                }
+            }
+        }
+    }
+
+    static class Contact {
+        private String name;
+        private String surname;
+        private String phoneNumber;
+
+        public Contact(String name, String surname) {
+            this.name = name;
+            this.surname = surname;
+            this.phoneNumber = "";
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getSurname() {
+            return this.surname;
+        }
+
+        public void setSurname(String surname) {
+            this.surname = surname;
+        }
+
+        public String getPhoneNumber() {
+            return this.phoneNumber;
+        }
+
+        public void setPhoneNumber(String phoneNumber) {
+            if (isValidPhoneNumber(phoneNumber))
+                this.phoneNumber = phoneNumber;
+            else {
+                this.phoneNumber = "";
+                System.out.println("Wrong number format!");
+            }
+        }
+
+        private boolean isValidPhoneNumber(String phoneNumber) {
+            //String pattern = "\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}";
+            String pattern = "^\\+?(\\(\\w+\\)|\\w+[ -]\\(\\w{2,}\\)|\\w+)([ -]\\w{2,})*";
+            return phoneNumber.matches(pattern);
+        }
+
+        public boolean hasNumber() {
+            return !"".equalsIgnoreCase(this.phoneNumber);
+        }
+    }
+
+    static class ContactsManagement {
+        private List<Contact> contacts;
+
+        public ContactsManagement() {
+            this.contacts = new ArrayList<>();
+        }
+
+        public void addContact(Contact contact) {
+            this.contacts.add(contact);
+        }
+
+        public void removeContact() {
+            if (this.contacts.size() == 0) {
+                System.out.println("No records to remove!");
+                return;
+            }
+            this.list();
+            System.out.println("Select a record:");
+            Scanner scanner1 = new Scanner(System.in);
+            int index = scanner1.nextInt();
+            this.contacts.remove(index - 1);
+
+        }
+
+        public void editContact() {
+            this.list();
+            System.out.println("Select a record:");
+            Scanner scanner1 = new Scanner(System.in);
+            Scanner scanner2 = new Scanner(System.in);
+            int index = scanner1.nextInt();
+            Contact contact = this.contacts.get(index - 1);
+            System.out.println("Select a field (name, surname, number):");
+            String selectField = scanner2.nextLine();
+            switch (selectField.toLowerCase()) {
+                case "name":
+                    String name = scanner2.nextLine();
+                    if (!"".equals(name))
+                        contact.setName(name);
+                    break;
+                case "surname":
+                    String surname = scanner2.nextLine();
+                    if (!"".equals(surname))
+                        contact.setSurname(surname);
+                    break;
+                case "number":
+                    String phoneNumber = scanner2.nextLine();
+                    if (!"".equals(phoneNumber))
+                        contact.setPhoneNumber(phoneNumber);
+                    break;
+            }
+            this.contacts.set(index - 1, contact);
+            System.out.println("The record updated!");
+        }
+
+        public String getContactNumber() {
+            int lastContactIndex = contacts.size() - 1;
+            Contact contact = this.contacts.get(lastContactIndex);
+            return contact.getPhoneNumber();
+        }
+
+        public int count() {
+            return this.contacts.size();
+        }
+
+        public void list() {
+            for (int i = 0; i < this.contacts.size(); i++) {
+                Contact contact = this.contacts.get(i);
+                String phoneNumber = !"".equals(contact.getPhoneNumber()) ? contact.getPhoneNumber() : "[no number]";
+                String contactInfo = "%s. %s %s, %s".formatted(i + 1, contact.getName(), contact.getSurname(), phoneNumber);
+                System.out.println(contactInfo);
+            }
+        }
+
+        public void exit() {
+            System.exit(0);
+        }
+    }
+}

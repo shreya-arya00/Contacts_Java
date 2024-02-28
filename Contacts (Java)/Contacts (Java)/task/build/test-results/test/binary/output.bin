@@ -1,0 +1,6 @@
+[1;31m
+Start test 1[0m
+6[menu] Enter action (add, list, search, count, exit):
+> exit
+Data saved to phonebook.db
+Exiting the program.
